@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_pi.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="我们清楚，不论什么高级语言编写的源程序，最终都必须“翻译“成指令形式表示的机器语言，才能够在计算机上运行。而机器语言程序的每条指令都是由一串由0、1组成的二进制数字序列，所以要读懂一个机器语言程序很费劲，这很糟糕，为了能直观的表示机器语言程序，引入了一种与机器语言一一对应的符号化表示语言，称为汇编语言。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIPS汇编程序">
+<meta property="og:url" content="http://example.com/2023/04/22/MIPS%E6%B1%87%E7%BC%96%E7%A8%8B%E5%BA%8F/index.html">
+<meta property="og:site_name" content="Chauncy">
+<meta property="og:description" content="我们清楚，不论什么高级语言编写的源程序，最终都必须“翻译“成指令形式表示的机器语言，才能够在计算机上运行。而机器语言程序的每条指令都是由一串由0、1组成的二进制数字序列，所以要读懂一个机器语言程序很费劲，这很糟糕，为了能直观的表示机器语言程序，引入了一种与机器语言一一对应的符号化表示语言，称为汇编语言。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-21T16:20:00.000Z">
+<meta property="article:modified_time" content="2023-04-21T18:14:17.096Z">
+<meta property="article:author" content="Chauncy-qiu">
+<meta property="article:tag" content="汇编语言">
+<meta property="article:tag" content="MIPS">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/04/22/MIPS%E6%B1%87%E7%BC%96%E7%A8%8B%E5%BA%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MIPS汇编程序 | Chauncy</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chauncy</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/22/MIPS%E6%B1%87%E7%BC%96%E7%A8%8B%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chauncy-qiu">
+      <meta itemprop="description" content="There is no black magic in computers.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chauncy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MIPS汇编程序
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-22 00:20:00 / 修改时间：02:14:17" itemprop="dateCreated datePublished" datetime="2023-04-22T00:20:00+08:00">2023-04-22</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我们清楚，不论什么高级语言编写的源程序，最终都必须“翻译“成指令形式表示的机器语言，才能够在计算机上运行。而机器语言程序的每条指令都是由一串由0、1组成的二进制数字序列，所以要读懂一个机器语言程序很费劲，这很糟糕，为了能直观的表示机器语言程序，引入了一种与机器语言一一对应的符号化表示语言，称为汇编语言。</p>
+<span id="more"></span>
+
+<h3 id="汇编语言"><a href="#汇编语言" class="headerlink" title="汇编语言"></a>汇编语言</h3><p>汇编语言中，用助记符来表示指令操作码的含义，用标号、变量名称、寄存器名称、常数等表示操作码或地址码。</p>
+<p>以下简要介绍MIPS指令系统和MIPS汇编语言。</p>
+<hr>
+<h3 id="MIPS"><a href="#MIPS" class="headerlink" title="MIPS"></a>MIPS</h3><p>MIPS（Microprocessor without Interlocked Pipeline Stages）：无互锁流水级的微处理器，是一种采取<em><strong>精简指令集（RISC）</strong></em>的指令集架构（ISA）。</p>
+<p>精简指令集（RISC）：用一系列简单的指令来完成一项任务。</p>
+<p>复杂指令集（CISC）：用尽可能少的指令来完成尽可能多的任务。</p>
+<hr>
+<h3 id="MIPS寄存器种类"><a href="#MIPS寄存器种类" class="headerlink" title="MIPS寄存器种类"></a>MIPS寄存器种类</h3><p>MIPS提供了32个32位通用寄存器，寄存器编号占5位（32个），各寄存器名称、编号、功能见下表。</p>
+<table>
+<thead>
+<tr>
+<th>REGISTER</th>
+<th>NAME</th>
+<th>USAGE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$0</td>
+<td>$zero</td>
+<td>常量0</td>
+</tr>
+<tr>
+<td>$1</td>
+<td>$at</td>
+<td>保留给汇编器</td>
+</tr>
+<tr>
+<td>$2-$3</td>
+<td>$v0 - $v1</td>
+<td>函数调用返回值</td>
+</tr>
+<tr>
+<td>$4-$7</td>
+<td>$a0 - \a3</td>
+<td>函数调用参数</td>
+</tr>
+<tr>
+<td>$8-$15</td>
+<td>$t0 - $t7</td>
+<td>临时变量，在调用过程中无需保存</td>
+</tr>
+<tr>
+<td>$16-$23</td>
+<td>$s0 - $s7</td>
+<td>在被调用过程中需要保存</td>
+</tr>
+<tr>
+<td>$24-$25</td>
+<td>$t8 - $t9</td>
+<td>临时变量，在被调用过程中无需保存</td>
+</tr>
+<tr>
+<td>$26-$27</td>
+<td>$k0 - $k1</td>
+<td>为OS保留</td>
+</tr>
+<tr>
+<td>$28</td>
+<td>$gp</td>
+<td>全局指针</td>
+</tr>
+<tr>
+<td>$29</td>
+<td>$sp</td>
+<td>堆栈指针</td>
+</tr>
+<tr>
+<td>$30</td>
+<td>$fp</td>
+<td>帧指针</td>
+</tr>
+<tr>
+<td>$31</td>
+<td>$ra</td>
+<td>过程调用返回地址</td>
+</tr>
+</tbody></table>
+<ul>
+<li>寄存器的汇编表示以$符号开始，可以使用名称，亦可以使用编号。</li>
+<li>MIPS中用PC指出下一条指令地址。</li>
+<li>MIPS的存储器按字节编址<ul>
+<li>对于存储器数据，其操作数地址为32位，通过一个寄存器内容加16位偏移量得到</li>
+<li>16位偏移量是带符号整数，故可访问的地址空间大小为4GB</li>
+<li>采用大端方式存储数据，数据要求按字边界对齐，通过Load&#x2F;Store指令访问存储器数据</li>
+</ul>
+</li>
+<li>对于立即操作数（16位），需要对其进行符号位扩展（32位）运算。</li>
+</ul>
+<hr>
+<h3 id="MIPS指令格式"><a href="#MIPS指令格式" class="headerlink" title="MIPS指令格式"></a>MIPS指令格式</h3><p>指令分为三种类型：R-型（Register）、I-型（Immediate）和J-型（Jump）。三种类型的指令的最高6位均为6位的opcode码</p>
+<h5 id="R-型指令"><a href="#R-型指令" class="headerlink" title="R-型指令"></a>R-型指令</h5><p>R型指令操作码OP是000000，接着用连续三个5位二进制码来表示三个寄存器（rs、rt，rd）的地址，然后用一个5位二进制码（shamt）来表示移位的位数（如果未使用移位操作，则全为0），最后为6位的function码决定操作类型。</p>
+<p>R-型指令的寻址方式只有一种，就是寄存器寻址。</p>
+<h5 id="I-型指令"><a href="#I-型指令" class="headerlink" title="I-型指令"></a>I-型指令</h5><p>I型指令是立即数型指令，I型指令则用连续两个5位二进制码（rs，rt）来表示两个寄存器的地址，然后是一个16位二进制码来表示的一个立即数二进制码。</p>
+<p>I-型指令的寻址方式有4种：寄存器寻址、立即数寻址、相对寻址、变址寻址。</p>
+<h5 id="J-型指令"><a href="#J-型指令" class="headerlink" title="J-型指令"></a>J-型指令</h5><p>J-型指令主要是无条件跳转寻址。</p>
+<p>J型指令用26位二进制码来表示跳转目标的指令地址（实际的指令地址应为32位，其中最低两位为00）。</p>
+<p>指令中给出的是26位的直接地址，只要将当前PC的高四位拼上26位直接地址，最后添两个0即可得到跳转目标地址。</p>
+<p>之所以要在跳转目标最后两位添0的原因是：</p>
+<ul>
+<li>MIPS存储单元采用字节编址，一条指令占据4个存储单元。</li>
+<li>指令地址总是4的倍数，即指令的最后两位总是0。</li>
+</ul>
+<p>不必在指令中显式给出，想要实现此功能只需要在数据通路中添加00的电路即可。</p>
+<hr>
+<h3 id="MIPS汇编语言程序结构"><a href="#MIPS汇编语言程序结构" class="headerlink" title="MIPS汇编语言程序结构"></a>MIPS汇编语言程序结构</h3><p>下面以一段MIPS汇编语言程序为例说明程序格式和运行过程。</p>
+<h5 id="数据声明"><a href="#数据声明" class="headerlink" title="数据声明"></a>数据声明</h5><ul>
+<li>数据段以.data为开始标志。</li>
+<li>声明变量后，即在主存中分配空间。</li>
+</ul>
+<p>格式：<code>name: type value(s)</code></p>
+<ul>
+<li>name: 变量名</li>
+<li>type：数据类型（.word,.ascii,.data, .byte等）<ul>
+<li>.space 需要指明（bytes）</li>
+</ul>
+</li>
+<li>value：初始值</li>
+</ul>
+<p>例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.data</span><br><span class="line">pof2: .word 1,2,8,4,16,10	  #定义数组&#123;1,2,8,4,16,10&#125;</span><br><span class="line">num:   .word 6			     #数组长度</span><br><span class="line">max:   .space 4			     #最大值</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>’.data’部分定义了一个名为’pof2’的数组，数组中包含了六个整数，分别是’1,2,8,4,16,10’</li>
+<li>一个变量’num’用来存储数组元素个数</li>
+<li>一个’max’变量用来存储最大值</li>
+</ul>
+<h5 id="程序主体"><a href="#程序主体" class="headerlink" title="程序主体"></a>程序主体</h5><ul>
+<li>程序入口以main:为标志</li>
+</ul>
+<p>然后，’.text’部分开始定义程序中的主函数’main’。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.text</span><br><span class="line">main: </span><br></pre></td></tr></table></figure>
+
+
+
+<p>该函数首先使用’lw’指令从变量’num’中加载数组元素的个数，并使用’la’指令将数组’pof2’的地址存储在寄存器’$s2’中。另外，使用’la’指令将变量’max’的地址存储在寄存器’$s6’中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">la $s2,pof2 			# 数组地址存入寄存器$s2</span><br><span class="line">lw $s1,num 				#数组长度存入寄存器$s1中</span><br><span class="line">la $s6,max				#max地址存入寄存器$s6中</span><br></pre></td></tr></table></figure>
+
+
+
+<p>使用’move’指令将寄存器’$s0’和’$t7’的值都设置为’0’。其中，寄存器’$s0’用于存储当前数组元素的下标，寄存器’$t7’用于存储当前处理的数组元素的地址。然后使用lw指令将第一个数组元素的值加载到寄存器’$S5’中，作为目前最大值的初始值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">move   $s0, $zero           # 正在遍历数组元素的序号i</span><br><span class="line">move   $t7, $zero	        # 存储当前正在遍历的数组地址</span><br><span class="line">lw  $s5,0($s2)			   # 将第一个数组元素的值加载到寄存器&#x27;$S5&#x27;	</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>接下来是循环部分</strong></p>
+<ol>
+<li>使用标签’<strong>for_loop</strong>’定义一个循环，该循环的目的是遍历整个数组并找出最大值。首先使用’sltu’指令比较’$s0’和’$s1’（数组元素的个数），显然，按照我们的想法就是如果当前遍历的数目小于数组元素总个数则继续，反之则停止，将比较结果存储在寄存器’$t1’中。（如果’$s0’小于’$s1’，则’$t1’为1，如果’$s0’大于等于’$s1’，则’$t1’为0，因为$s0是从0开始的）</li>
+<li>使用’beq’指令判断’$t1’的值是否为0，如果为0，则跳转到标签’exit’处，即退出循环，如果’$t1’的值为1，sll指令是逻辑左移指令，将’$s0’中存储的值左移两位，保证是4的倍数存储寄存器’$t7’，将’$s2’中地址加上偏移量放入’$t7’中，得到pof2[i]的地址，同时将’$s0’中值加1，将（$t7）中元素中值取出放入’$t3’中，使用’slt’指令比较当前数组元素的值和已知的最大值，将比较结果存储在寄存器’$t2’中。如果当前数组元素的值比已知的最大值大，则跳转到标签’max2’处更新最大值，并继续进行循环，否则，直接跳转到标签’loop’处继续进行循环。</li>
+<li>在标签’max2’:使用’move’指令将当前数组元素的值存储在寄存器’s5’中，作为新的最大值，然后跳转到loop处进行循环。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for_loop:  sltu   $t1, $s0, $s1       	#遍历完t1为0，没遍历完t1为1</span><br><span class="line">           beq    $t1, $zero, exit      #遍历完了就退出</span><br><span class="line">           sll    $t7, $s0, 2         	#当前序号乘4</span><br><span class="line">           add    $t7, $s2, $t7         #加上偏移量得到新的数组元素地址   </span><br><span class="line">           add    $s0,$s0,1			   #s0值加1</span><br><span class="line">           lw     $t3,0($t7)		   #将当前遍历元素值存入t3</span><br><span class="line">           slt    $t2,$s5,$t3   	    #最大值比较，大于最大值为0，反之为1</span><br><span class="line">           beq    $t2, $zero,loop       #大于最大值，进行max2标签里的内容，反之进行loop</span><br><span class="line">           max2: move $s5,$t3		   #修改最大值为当前遍历元素值</span><br><span class="line"> loop:     j      for_loop		       #回到for_loop块</span><br></pre></td></tr></table></figure>
+
+
+
+<p>当不满足条件时循环已经结束，执行’exit:’部分，’sw’指令将寄存器’$s5’中值存入max所在地址处，’li’指令将系统调用号设置为1，负责在控制台打印一个整数，move指令将’$s5’寄存器中数值传入寄存器’$a0’中，syscall系统调用执行与存储在寄存器’$v0’中的系统调用号相应的代码，将打印出数组中的最大值。li $v0 10 将退出程序的系统调用号加载到寄存器’$v0’中，syscall调用系统调用以退出程序。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">exit:    sw $s5,0($s6)		#将最大值存入max所在地址</span><br><span class="line">         li $v0,1 			#将系统调用号1载入$v0</span><br><span class="line">         move $a0,$s5  		#将最大值放入$a0</span><br><span class="line">         syscall			#系统调用在控制台打印一个整数</span><br><span class="line">         li $v0 10			#将系统调用号1载入$v0</span><br><span class="line">         syscall			#退出程序</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="系统调用号"><a href="#系统调用号" class="headerlink" title="系统调用号"></a>系统调用号</h3><p>在MIPS汇编中，不同的系统调用对应于不同的系统调用号，这些号码都是整数变量，定义在MIPS操作系统的头文件中，以下是一些常见的MIPS系统调用和他们的系统调用号。</p>
+<table>
+<thead>
+<tr>
+<th>系统调用</th>
+<th align="center">系统调用号</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>‘print_string’</td>
+<td align="center">‘4’</td>
+<td>在控制台打印一个字符串</td>
+</tr>
+<tr>
+<td>‘read_int’</td>
+<td align="center">’5‘</td>
+<td>在控制台读取一个整数</td>
+</tr>
+<tr>
+<td>‘print_int’</td>
+<td align="center">’9‘</td>
+<td>分配一段内存并返回指向新内存的指针</td>
+</tr>
+<tr>
+<td>‘exit’</td>
+<td align="center">’10‘</td>
+<td>终止程序并返回操作系统</td>
+</tr>
+</tbody></table>
+<p>当系统想要调用系统调用时，需要将相应的系统调用号存储在寄存器’$v0’中，并根据系统调用的要求，将参数存储在存储器’$a0’、’$a1’、’$a2’中，然后执行’syscall’指令以触发相应的系统调用。</p>
+<h3 id="过程帧和堆栈"><a href="#过程帧和堆栈" class="headerlink" title="过程帧和堆栈"></a>过程帧和堆栈</h3><ul>
+<li>过程帧是过程在运行时的存储区域，通常包括返回地址、调用者保存的寄存器、局部变量和参数等。</li>
+<li>栈是从高到低存储的，记录堆栈生长的方向一般是向下，即堆栈指针$sp的值减小表示栈帧增长。</li>
+<li>帧和栈的关系是，每当一个过程被调用时，都会为它分配一个新的帧，这个帧被存储在栈中。</li>
+<li>调用结束后，帧被销毁，同时栈指针$sp也随之恢复。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" rel="tag"><i class="fa fa-tag"></i> 汇编语言</a>
+              <a href="/tags/MIPS/" rel="tag"><i class="fa fa-tag"></i> MIPS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/21/%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/" rel="prev" title="hello程序的一生">
+      <i class="fa fa-chevron-left"></i> hello程序的一生
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">汇编语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS"><span class="nav-number">2.</span> <span class="nav-text">MIPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS%E5%AF%84%E5%AD%98%E5%99%A8%E7%A7%8D%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">MIPS寄存器种类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">MIPS指令格式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#R-%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="nav-number">4.0.1.</span> <span class="nav-text">R-型指令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#I-%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="nav-number">4.0.2.</span> <span class="nav-text">I-型指令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#J-%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="nav-number">4.0.3.</span> <span class="nav-text">J-型指令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="nav-number">5.</span> <span class="nav-text">MIPS汇编语言程序结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A3%B0%E6%98%8E"><span class="nav-number">5.0.1.</span> <span class="nav-text">数据声明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93"><span class="nav-number">5.0.2.</span> <span class="nav-text">程序主体</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%8F%B7"><span class="nav-number">6.</span> <span class="nav-text">系统调用号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B%E5%B8%A7%E5%92%8C%E5%A0%86%E6%A0%88"><span class="nav-number">7.</span> <span class="nav-text">过程帧和堆栈</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chauncy-qiu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Chauncy-qiu</p>
+  <div class="site-description" itemprop="description">There is no black magic in computers.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:qcanic@foxmail.com" title="E-Mail → mailto:qcanic@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chauncy-qiu</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
