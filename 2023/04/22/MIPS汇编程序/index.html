@@ -30,7 +30,7 @@
 <meta property="og:description" content="我们清楚，不论什么高级语言编写的源程序，最终都必须“翻译“成指令形式表示的机器语言，才能够在计算机上运行。而机器语言程序的每条指令都是由一串由0、1组成的二进制数字序列，所以要读懂一个机器语言程序很费劲，这很糟糕，为了能直观的表示机器语言程序，引入了一种与机器语言一一对应的符号化表示语言，称为汇编语言。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-21T16:20:00.000Z">
-<meta property="article:modified_time" content="2023-04-22T12:10:42.750Z">
+<meta property="article:modified_time" content="2023-04-22T12:16:27.291Z">
 <meta property="article:author" content="Chauncy-qiu">
 <meta property="article:tag" content="汇编语言">
 <meta property="article:tag" content="MIPS">
@@ -198,7 +198,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-04-22 00:20:00 / 修改时间：20:10:42" itemprop="dateCreated datePublished" datetime="2023-04-22T00:20:00+08:00">2023-04-22</time>
+              <time title="创建时间：2023-04-22 00:20:00 / 修改时间：20:16:27" itemprop="dateCreated datePublished" datetime="2023-04-22T00:20:00+08:00">2023-04-22</time>
             </span>
 
           
@@ -312,11 +312,11 @@
 </ul>
 <hr>
 <h3 id="MIPS指令格式"><a href="#MIPS指令格式" class="headerlink" title="MIPS指令格式"></a>MIPS指令格式</h3><p>指令分为三种类型：R-型（Register）、I-型（Immediate）和J-型（Jump）。三种类型的指令的最高6位均为6位的opcode码</p>
-<h5 id="R-型指令"><a href="#R-型指令" class="headerlink" title="R-型指令"></a>R-型指令</h5><p>R型指令操作码OP是000000，接着用连续三个5位二进制码来表示三个寄存器（rs、rt，rd）的地址，然后用一个5位二进制码（shamt）来表示移位的位数（如果未使用移位操作，则全为0），最后为6位的function码决定操作类型。</p>
+<h4 id="R-型指令"><a href="#R-型指令" class="headerlink" title="R-型指令"></a>R-型指令</h4><p>R型指令操作码OP是000000，接着用连续三个5位二进制码来表示三个寄存器（rs、rt，rd）的地址，然后用一个5位二进制码（shamt）来表示移位的位数（如果未使用移位操作，则全为0），最后为6位的function码决定操作类型。</p>
 <p>R-型指令的寻址方式只有一种，就是寄存器寻址。</p>
-<h5 id="I-型指令"><a href="#I-型指令" class="headerlink" title="I-型指令"></a>I-型指令</h5><p>I型指令是立即数型指令，I型指令则用连续两个5位二进制码（rs，rt）来表示两个寄存器的地址，然后是一个16位二进制码来表示的一个立即数二进制码。</p>
+<h4 id="I-型指令"><a href="#I-型指令" class="headerlink" title="I-型指令"></a>I-型指令</h4><p>I型指令是立即数型指令，I型指令则用连续两个5位二进制码（rs，rt）来表示两个寄存器的地址，然后是一个16位二进制码来表示的一个立即数二进制码。</p>
 <p>I-型指令的寻址方式有4种：寄存器寻址、立即数寻址、相对寻址、变址寻址。</p>
-<h5 id="J-型指令"><a href="#J-型指令" class="headerlink" title="J-型指令"></a>J-型指令</h5><p>J-型指令主要是无条件跳转寻址。</p>
+<h4 id="J-型指令"><a href="#J-型指令" class="headerlink" title="J-型指令"></a>J-型指令</h4><p>J-型指令主要是无条件跳转寻址。</p>
 <p>J型指令用26位二进制码来表示跳转目标的指令地址（实际的指令地址应为32位，其中最低两位为00）。</p>
 <p>指令中给出的是26位的直接地址，只要将当前PC的高四位拼上26位直接地址，最后添两个0即可得到跳转目标地址。</p>
 <p>之所以要在跳转目标最后两位添0的原因是：</p>
@@ -343,6 +343,7 @@
 <p>例：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.data</span><br><span class="line">pof2: .word 1,2,8,4,16,10	  #定义数组&#123;1,2,8,4,16,10&#125;</span><br><span class="line">num:   .word 6			     #数组长度</span><br><span class="line">max:   .space 4			     #最大值</span><br></pre></td></tr></table></figure>
 
+<p><strong>说明：</strong></p>
 <ul>
 <li>’.data’部分定义了一个名为’pof2’的数组，数组中包含了六个整数，分别是’1,2,8,4,16,10’</li>
 <li>一个变量’num’用来存储数组元素个数</li>
@@ -497,7 +498,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">汇编语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS"><span class="nav-number">2.</span> <span class="nav-text">MIPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS%E5%AF%84%E5%AD%98%E5%99%A8%E7%A7%8D%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">MIPS寄存器种类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">MIPS指令格式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#R-%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="nav-number">4.0.1.</span> <span class="nav-text">R-型指令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#I-%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="nav-number">4.0.2.</span> <span class="nav-text">I-型指令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#J-%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="nav-number">4.0.3.</span> <span class="nav-text">J-型指令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="nav-number">5.</span> <span class="nav-text">MIPS汇编语言程序结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A3%B0%E6%98%8E"><span class="nav-number">5.1.</span> <span class="nav-text">数据声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93"><span class="nav-number">5.2.</span> <span class="nav-text">程序主体</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%8F%B7"><span class="nav-number">6.</span> <span class="nav-text">系统调用号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B%E5%B8%A7%E5%92%8C%E5%A0%86%E6%A0%88"><span class="nav-number">7.</span> <span class="nav-text">过程帧和堆栈</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">汇编语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS"><span class="nav-number">2.</span> <span class="nav-text">MIPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS%E5%AF%84%E5%AD%98%E5%99%A8%E7%A7%8D%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">MIPS寄存器种类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">MIPS指令格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#R-%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="nav-number">4.1.</span> <span class="nav-text">R-型指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#I-%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="nav-number">4.2.</span> <span class="nav-text">I-型指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#J-%E5%9E%8B%E6%8C%87%E4%BB%A4"><span class="nav-number">4.3.</span> <span class="nav-text">J-型指令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIPS%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="nav-number">5.</span> <span class="nav-text">MIPS汇编语言程序结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A3%B0%E6%98%8E"><span class="nav-number">5.1.</span> <span class="nav-text">数据声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93"><span class="nav-number">5.2.</span> <span class="nav-text">程序主体</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%8F%B7"><span class="nav-number">6.</span> <span class="nav-text">系统调用号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B%E5%B8%A7%E5%92%8C%E5%A0%86%E6%A0%88"><span class="nav-number">7.</span> <span class="nav-text">过程帧和堆栈</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
