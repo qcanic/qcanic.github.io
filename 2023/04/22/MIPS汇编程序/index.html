@@ -30,7 +30,7 @@
 <meta property="og:description" content="我们清楚，不论什么高级语言编写的源程序，最终都必须“翻译“成指令形式表示的机器语言，才能够在计算机上运行。而机器语言程序的每条指令都是由一串由0、1组成的二进制数字序列，所以要读懂一个机器语言程序很费劲，这很糟糕，为了能直观的表示机器语言程序，引入了一种与机器语言一一对应的符号化表示语言，称为汇编语言。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-21T16:20:00.000Z">
-<meta property="article:modified_time" content="2023-04-22T12:02:53.063Z">
+<meta property="article:modified_time" content="2023-04-22T12:10:42.750Z">
 <meta property="article:author" content="Chauncy-qiu">
 <meta property="article:tag" content="汇编语言">
 <meta property="article:tag" content="MIPS">
@@ -198,7 +198,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-04-22 00:20:00 / 修改时间：20:02:53" itemprop="dateCreated datePublished" datetime="2023-04-22T00:20:00+08:00">2023-04-22</time>
+              <time title="创建时间：2023-04-22 00:20:00 / 修改时间：20:10:42" itemprop="dateCreated datePublished" datetime="2023-04-22T00:20:00+08:00">2023-04-22</time>
             </span>
 
           
@@ -376,8 +376,6 @@
 
 <p>当不满足条件时循环已经结束，执行’exit:’部分，’sw’指令将寄存器’$s5’中值存入max所在地址处，’li’指令将系统调用号设置为1，负责在控制台打印一个整数，move指令将’$s5’寄存器中数值传入寄存器’$a0’中，syscall系统调用执行与存储在寄存器’$v0’中的系统调用号相应的代码，将打印出数组中的最大值。li $v0 10 将退出程序的系统调用号加载到寄存器’$v0’中，syscall调用系统调用以退出程序。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">exit:    sw $s5,0($s6)		#将最大值存入max所在地址</span><br><span class="line">         li $v0,1 			#将系统调用号1载入$v0</span><br><span class="line">         move $a0,$s5  		#将最大值放入$a0</span><br><span class="line">         syscall			#系统调用在控制台打印一个整数</span><br><span class="line">         li $v0 10			#将系统调用号1载入$v0</span><br><span class="line">         syscall			#退出程序</span><br></pre></td></tr></table></figure>
-
-
 
 <hr>
 <h3 id="系统调用号"><a href="#系统调用号" class="headerlink" title="系统调用号"></a>系统调用号</h3><p>在MIPS汇编中，不同的系统调用对应于不同的系统调用号，这些号码都是整数变量，定义在MIPS操作系统的头文件中，以下是一些常见的MIPS系统调用和他们的系统调用号。</p>
