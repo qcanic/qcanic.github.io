@@ -207,30 +207,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="筛法"><a href="#筛法" class="headerlink" title="筛法"></a>筛法</h2><p>数学定理引入：在实数范围内，每个合数都可以被表示为多个质数的乘积</p>
-<p>根据这个定理，我们可以写出高效筛选出一个范围内所有质数的算法</p>
-<h3 id="1-朴素筛："><a href="#1-朴素筛：" class="headerlink" title="1. 朴素筛："></a>1. 朴素筛：</h3><h4 id="思想："><a href="#思想：" class="headerlink" title="思想："></a>思想：</h4><p>设置两个数组：judge数组用来标记素数，我们在不断筛选的过程中，如果这个数被标记上了，那它就不是素数。prime数组用来存储具体的素数。</p>
-<p>从2开始遍历，如果i没有被标记过，说明它是素数，将其加入结果prime数组中，接着利用内部for循环遍历标记i的倍数。</p>
-<p>这种情况下，后面的数会被重复标记，比如说12，在对2进行筛选的时候，2*<em>6（12）会被标记，接着对3进行筛选的时候，3</em>*4（12）会再次被标记，即合数的倍数也会被标记，这显然是不需要的。这种情况会出现非常多的次数，所以朴素筛算法性能不好。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 朴素筛模板 </span></span><br><span class="line"><span class="type">bool</span> judge[maxn];</span><br><span class="line"><span class="type">int</span> prime[maxn], cnt = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">getPrimes</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!judge[i])&#123;</span><br><span class="line">			prime[cnt++] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 这里为了时间性能，从i*i开始标记（因为前面的已经被标记过了），将i的整数倍全部标记一遍</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = i * i; j &lt;= n; j += i)&#123;</span><br><span class="line">            judge[j] = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cnt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="2-埃氏筛"><a href="#2-埃氏筛" class="headerlink" title="2.埃氏筛"></a>2.埃氏筛</h3><h4 id="思想：-1"><a href="#思想：-1" class="headerlink" title="思想："></a>思想：</h4><p>埃氏筛是从朴素筛改进而来的，从上面对于朴素筛的讨论我们可以清楚对于合数我们没必要再考虑，因为在对前面的质数的质数进行标记的时候我们已经将合数进行标记过了。所以我们可以将内层for循环写入if语句中。</p>
-<p>较之朴素筛，埃氏筛选的时间性能已经得到了很大的提升，不过，我们可以想到的是，即便埃氏筛排除了后面合数被讨论的可能，但对于每个合数可能被前面两个素数给标记到，同样会出现重复的情况，所以埃氏筛还有可以改进的空间。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 埃氏筛模板 </span></span><br><span class="line"><span class="type">bool</span> judge[maxn];</span><br><span class="line"><span class="type">int</span> prime[maxn], cnt = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">getPrimes</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!judge[i])&#123;</span><br><span class="line">			prime[cnt++] = i;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j = i * i; j &lt;= n; j += i)&#123;</span><br><span class="line">                judge[j] = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cnt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h3 id="3-线性筛"><a href="#3-线性筛" class="headerlink" title="3.线性筛"></a>3.线性筛</h3><h4 id="思想：-2"><a href="#思想：-2" class="headerlink" title="思想："></a>思想：</h4><p>欧氏筛需要解决的后面每个合数可能被前面两个或多个素数给标记到的问题，我们可以规定每个合数只可以被其最小的一个质因子标记，比如说数字22，其会被2标记，也会被11标记，我们限定的就是如果被2标记到了，那么11就不要再标记了。</p>
-<p>线性筛法能保证合数只会被最小质因子标记，时间性能大大提高。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 线性筛模板 </span></span><br><span class="line"><span class="type">bool</span> judge[maxn];</span><br><span class="line"><span class="type">int</span> prime[maxn], cnt = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">getPrimes</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!judge[i])&#123;</span><br><span class="line">			prime[cnt++] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 枚举prime</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; prime[j] * i &lt;= n; j++)&#123;</span><br><span class="line">            judge[prime[j] * i] = <span class="literal">true</span>;</span><br><span class="line">            <span class="comment">// 整除中断，如果i是合数，那么其一定会被其最小质因子整除，质数会被一直枚举到自身为止</span></span><br><span class="line">            <span class="keyword">if</span>(i % prime[j] == <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cnt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
+          <p>在实数范围内，每个合数都可以被表示为多个质数的乘积根据这个定理，我们可以写出高效筛选出一个范围内所有质数的算法。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/09/21/%E7%AD%9B%E6%B3%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -287,24 +272,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="所有权"><a href="#所有权" class="headerlink" title="所有权"></a>所有权</h2><p>在Rust中没有垃圾回收器（garbage collector），也无需开发者亲自分配和释放内存。Rust管理内内存的方式是通过其所有权系统，编译器在编译原程序会根据一系列的规则进行检查，所以Rust程序编译速度会比较慢，但是在运行时，所有权系统的任何功能都不会减慢程序运行的速度。</p>
-<h2 id="所有权规则"><a href="#所有权规则" class="headerlink" title="所有权规则"></a>所有权规则</h2><ol>
-<li>Rust中的每一个值都有一个被称为其所有者的变量</li>
-<li>值在任一时刻有且只有一个所有者</li>
-<li>当所有者离开作用域，这个值将被丢弃</li>
-</ol>
-<h2 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h2><p>Rust中字符串值是被硬编码进程序代码中的，我们尝试声明一个字符串字面量s。</p>
-<p>当s进入作用域时，它就是有效的，直到它离开作用为止。</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 我们观察如下代码块，s变量从声明那一刻开始知道作用域结束时都是有效的。</span></span><br><span class="line">&#123;						<span class="comment">// 变量s在这里无效，因为它尚未声明</span></span><br><span class="line">	<span class="keyword">let</span> <span class="variable">s</span> = <span class="string">&quot;rust&quot;</span>;		<span class="comment">// 声明后s开始有效</span></span><br><span class="line">&#125;						<span class="comment">// 作用域结束，s不再有效</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h2><p>在Rust中，除了硬编码进程序的字符串字面量，还有第二种字符串类型：String，String类型的变量可以被修改，能够存储在编译时未知大小的文本。</p>
-<p>使用from函数基于字符串字面量来创建String：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;rust&quot;</span>);	<span class="comment">// 加上mut关键字表示其可以被修改。</span></span><br></pre></td></tr></table></figure>
-
-<p>字符串字面量值不可以被修改，而String类型时可变的，这是因为两种类型对于内存的处理方式不同。</p>
-
+          <p>在Rust中没有垃圾回收器（garbage collector），也无需开发者亲自分配和释放内存。Rust管理内内存的方式是通过其所有权系统，编译器在编译原程序会根据一系列的规则进行检查，所以Rust程序编译速度会比较慢，但是在运行时，所有权系统的任何功能都不会减慢程序运行的速度。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/09/19/Rust%E6%89%80%E6%9C%89%E6%9D%83/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
