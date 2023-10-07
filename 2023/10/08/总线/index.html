@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_pi.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="从物理的角度来看，总线（BUS）是一组传输公共信号线的集合，是传输地址、数据和控制信号的公共通路，由一组导线和相关的控制（协议）驱动电路组成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="总线">
+<meta property="og:url" content="http://example.com/2023/10/08/%E6%80%BB%E7%BA%BF/index.html">
+<meta property="og:site_name" content="Chauncy">
+<meta property="og:description" content="从物理的角度来看，总线（BUS）是一组传输公共信号线的集合，是传输地址、数据和控制信号的公共通路，由一组导线和相关的控制（协议）驱动电路组成。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/%E6%80%BB%E7%BA%BF/image-20230923231946169.png">
+<meta property="og:image" content="http://example.com/images/%E6%80%BB%E7%BA%BF/image-20230924030039989.png">
+<meta property="og:image" content="http://example.com/images/%E6%80%BB%E7%BA%BF/image-20230924211942702.png">
+<meta property="article:published_time" content="2023-10-07T18:43:32.000Z">
+<meta property="article:modified_time" content="2023-10-07T18:43:32.000Z">
+<meta property="article:author" content="Chauncy-qiu">
+<meta property="article:tag" content="接口技术">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/%E6%80%BB%E7%BA%BF/image-20230923231946169.png">
+
+<link rel="canonical" href="http://example.com/2023/10/08/%E6%80%BB%E7%BA%BF/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>总线 | Chauncy</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chauncy</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/08/%E6%80%BB%E7%BA%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chauncy-qiu">
+      <meta itemprop="description" content="There is no black magic in computers.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chauncy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          总线
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-10-08 02:43:32" itemprop="dateCreated datePublished" datetime="2023-10-08T02:43:32+08:00">2023-10-08</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>从物理的角度来看，总线（BUS）是一组传输公共信号线的集合，是传输地址、数据和控制信号的公共通路，由一组导线和相关的控制（协议）驱动电路组成。</p>
+<span id="more"></span>
+
+<h3 id="总线"><a href="#总线" class="headerlink" title="总线"></a>总线</h3><h4 id="总线的基本概念："><a href="#总线的基本概念：" class="headerlink" title="总线的基本概念："></a>总线的基本概念：</h4><p>从物理的角度来看，总线（BUS）是一组传输公共信号线的集合，是传输地址、数据和控制信号的公共通路，由一组导线和相关的控制（协议）驱动电路组成。</p>
+<p>在主板上安装有若干个插槽，允许插入各个模块（CPU板、存储器板和I&#x2F;O板等）。主板上的印制电路线将各插槽的相应点连接起来，即为总线。</p>
+<h4 id="总线标准"><a href="#总线标准" class="headerlink" title="总线标准"></a>总线标准</h4><p>指芯片之间、扩展卡之间以及系统之间，通过总线进行连接和传输信息时，应该遵守的一些协议和规范。</p>
+<h4 id="接口标准"><a href="#接口标准" class="headerlink" title="接口标准"></a>接口标准</h4><p>外设接口的规范，涉及接口信号线定义、信号线传输速率、信号传输方向和拓扑结构，以及电气特性和机械特性等多个方面。</p>
+<h4 id="总线和接口的区别"><a href="#总线和接口的区别" class="headerlink" title="总线和接口的区别"></a>总线和接口的区别</h4><ul>
+<li>总线标准具有公用性；接口标准大多是专用的；</li>
+<li>总线往往以主板上的总线扩展槽形式提供使用；接口一般是以接口插座（头）形式提供使用。</li>
+<li>总线一般是并行传输；接口有并行传输，也有串行传输。</li>
+<li>总线定义的信号线多，且齐全，有分离的控制总线、数据线和地址线；接口的信号线少，而且不齐全，一般是控制线、数据线和地址线共用。</li>
+</ul>
+<p><strong>如今，总线和接口的区别越来越小，尤其是总线串行化趋势使总线和接口更加难以区分</strong></p>
+<h4 id="总线特性"><a href="#总线特性" class="headerlink" title="总线特性"></a>总线特性</h4><ul>
+<li>物理特性：指总线的物理连接方式，包括总线的根数，总线的插头、插座的形状，引脚线的排列方式等。（以便于设计者进行设计）</li>
+<li>功能特性：描述总线中每一根线的功能</li>
+<li>电气特性：定义每一根线上信号的传递方向及有效电平范围。送入CPU的信号叫输入信号（IN），从CPU发出的信号叫输出信号（OUT）</li>
+<li>时间特性：定义了每根线在什么时间有效。规定了总线上各信号有效的时序关系，CPU才能正确无误地使用</li>
+</ul>
+<h4 id="总线的主要性能参数"><a href="#总线的主要性能参数" class="headerlink" title="总线的主要性能参数"></a>总线的主要性能参数</h4><ul>
+<li>总线频率：MHz表示的工作频率，是总线频率的一个重要参数。</li>
+<li>总线宽度：指数据总线的位数</li>
+<li>总线的数据传输率：总线的数据传输率&#x3D;(总线宽度&#x2F;8位)*总线频率</li>
+</ul>
+<h4 id="总线分类"><a href="#总线分类" class="headerlink" title="总线分类"></a>总线分类</h4><ul>
+<li>按总线结构分：<ul>
+<li>单总线：所有模块都连接到单一总线上。单总线具有结构简单便于扩充等优点。但是由于所有数据的传送都通过这一共享的总线，在此处可能成为计算机的瓶颈。</li>
+<li>双总线\三总线：将速度较低的I&#x2F;O设备从总线上分出去,而形成系统总线与I&#x2F;O总线分开的双总线结构。根据同一思想，可以组成三总线结构。在系统总线和扩展总线之间增加一条高速总线,将图形、视频和网络等连到高速总线上,而慢速I&#x2F;O设备仍连到扩展总线。</li>
+</ul>
+</li>
+<li>按功能和信号传输类型：数据传送线、仲裁总线、中断和同步线、公用线（现代总线结构）<ul>
+<li>数据传送线：<ul>
+<li>地址总线：假如为32位（A31～A0）。可寻址的内存单元为232＝4GB（ 约等于 42.9 亿字节）。计算机的I∕O接口也是通过地址总线来寻址的。地址总线是单向的，寻址总是由 CPU 发出的。</li>
+<li>控制总线：CPU 到存储器和外设接口的控制信号，如：存储器请求 MREQ、I／O 请求、IORQ、读信号 RD、写信号 WR 等等。由外设送到 CPU 的信号，如 8086 中的 READY 以及 INT 等。</li>
+<li>数据总线：如 32 位数据线（D31 ～ D0）。可以表示 0 ～ 231－1（无符号数）或 –231－1 ～ 231－1（有符号数）。由于数据在 CPU 与存储器和 CPU 与 I∕O 接口之间的有输入、输出两种操作，所以数据总线是双向的。可以传输的信息：数值数据、指令、设备码、控制字、状态字。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>按总线的层次分：<ul>
+<li>CPU总线（内部总线）：微机系统中速度最快的总线，主要在CPU内部，连接CPU内部各部件。</li>
+<li>局部总线：在系统总线和CPU总线之间的一级总线，提供CPU和主板器件之间以及CPU到高速外设，之间的快速信息通道。</li>
+<li>系统总线：也成为I&#x2F;O总线，通过总线扩展卡连接外部设备的总线。</li>
+<li>通信总线：也成为外部总线，是微机与微机，微机与外部设备（如打印机、硬盘设备）、仪器仪表之间的通信通道。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/../images/%E6%80%BB%E7%BA%BF/image-20230923231946169.png" alt="image-20230923231946169"></p>
+<h4 id="总线标准-1"><a href="#总线标准-1" class="headerlink" title="总线标准"></a>总线标准</h4><p>芯片、扩展卡与系统之间通过总线连接和通信时，应当遵循的协议和规范。</p>
+<h4 id="总线的负载能力"><a href="#总线的负载能力" class="headerlink" title="总线的负载能力"></a>总线的负载能力</h4><p>负载能力：指当总线接上负载后必须不影响总线输入&#x2F;输出的逻辑电平。</p>
+<p>总线输出驱动能力</p>
+<ul>
+<li>输出低电平时，吸收了负载电流后，仍能保持低电平</li>
+<li>输出高电平时，输出了负载电流后，仍能保持高电平</li>
+</ul>
+<p>总线输入对插线板的影响：插线板负载</p>
+<ul>
+<li>输入低电平时，总线向插线板灌电流</li>
+<li>输入高电平时，吸收插线板的电流</li>
+</ul>
+<p>增强总线负载能力的一般方法：</p>
+<ul>
+<li>在总线和负载间加接缓冲器或驱动器，常用三态缓冲器，其作用是驱动和隔离。（在板卡，即适配器上带有缓冲驱动器，或在接口芯片内部有缓冲驱动器单元）</li>
+</ul>
+<h4 id="XT、ISA总线"><a href="#XT、ISA总线" class="headerlink" title="XT、ISA总线"></a>XT、ISA总线</h4><h5 id="XT总线"><a href="#XT总线" class="headerlink" title="XT总线"></a>XT总线</h5><p>PC／XT总线是将 CPU的引脚经过8282锁存器、8286发送接收器、8288总线控制器、8259中断控制器、8237DMA控制器以及其他逻辑电路的重新驱动和组合控制而形成的。</p>
+<p>总线信号线安排：共62条<br>    8条双向数据线D7<del>D0 ；<br>    20条单向地址线A19</del>A0 ；<br>    控制线：<br>           6条中断请求线；<br>                         3对DMA申请线和4条DACK线；<br>                         4条 存储器和I&#x2F;O设备的读写命令线；<br>                         1条系统时钟信号线、1条I&#x2F;O奇偶检测线、<br>                         1条I&#x2F;O就绪线及其他联络信号线。<br>           4种电源（±5V、 ± 12V）共8条线。</p>
+<h5 id="执行一条I-x2F-O指令的过程："><a href="#执行一条I-x2F-O指令的过程：" class="headerlink" title="执行一条I&#x2F;O指令的过程："></a>执行一条I&#x2F;O指令的过程：</h5><ul>
+<li>指令周期：不同指令的指令周期是不等的。一个指令周期由一个或若干个总线周期组成。</li>
+<li>总线周期：CPU通过总线与外部进行信号输入、输出交换信息所需的时间</li>
+<li>时钟周期：时钟脉冲的重复周期。可见时钟周期是CPU的时间基准。又叫T状态。</li>
+</ul>
+<h5 id="基于XT总线接口设计所需要的主要总线信号："><a href="#基于XT总线接口设计所需要的主要总线信号：" class="headerlink" title="基于XT总线接口设计所需要的主要总线信号："></a>基于XT总线接口设计所需要的主要总线信号：</h5><ul>
+<li>地址信号A15-A0</li>
+<li>数据总线信号D7-D0</li>
+<li>控制总线信号-IOR，-IOW，AEN</li>
+</ul>
+<h4 id="ISA总线"><a href="#ISA总线" class="headerlink" title="ISA总线"></a>ISA总线</h4><p>ISA（Industry Standard Architecture，工业标准体系结构）是IBM PC&#x2F;AT（80286）机上首先使用，故又称为AT总线，后被国际标准化组织确定为国际标准ISA.</p>
+<p>ISA（Industrial Standard Architecture，工业标准体系结构）总线起源于IBM-PC微型计算机的出现</p>
+<p>ISA插槽由基本的62线8位插槽和扩展的36线插槽两部分组成</p>
+<h5 id="ISA信号说明"><a href="#ISA信号说明" class="headerlink" title="ISA信号说明"></a>ISA信号说明</h5><ul>
+<li>数据线D0~D15：双向三态</li>
+<li>低位地址线A0~A19：输出，可寻址1MB，带锁存</li>
+<li>高位地址线LA17~LA23：输出，寻址范围16MB，不带锁存，A19～A17不复用，提高数据传输率</li>
+<li>地址锁存允许信号ALE：输出，高电平有效</li>
+<li>中断请求信号IRQ2<del>IRQ7、IRQ10</del>IRQ14：输入，上升沿有效</li>
+<li>地址使能信号AEN：输出，高电平有效。高电平表示DMA周期。CPU控制总线时，该信号保持低电平</li>
+<li>I&#x2F;O读信号IOR#：输出，低电平有效</li>
+<li>I&#x2F;O写信号IOW# ：输出，低电平有效</li>
+<li>存储器读 MEMR#：输出，低电平有效</li>
+<li>存储器写MEMW#：输出，低电平有效</li>
+<li>数据总线高字节使能 SBHE# ：输出，低电平有效</li>
+<li>16位I&#x2F;O片选信号I&#x2F;OCS16#：输入，低电平有效</li>
+<li>16位存储器片选MEMCS16#：输入，低电平有效</li>
+</ul>
+<hr>
+<h4 id="PCI总线"><a href="#PCI总线" class="headerlink" title="PCI总线"></a>PCI总线</h4><p>PCI总线(Peripheral Component Interconnect，外围部件互连总线)于1991年由Intel公司首先提出，并由PCI SIG(Special Interest Group)来发展和推广。由于PCI总线先进的结构特性及其优异的性能，使之成为现代微机系统总线结构中的佼佼者，并被多数现代高性能微机系统所广泛采用。</p>
+<h5 id="PCI特点"><a href="#PCI特点" class="headerlink" title="PCI特点"></a>PCI特点</h5><ul>
+<li><p>66MHz时钟，峰值传输速率为264MBytes&#x2F;s，适合告诉数据传输的要求。</p>
+</li>
+<li><p>突发传输模式，确保总线数据不断地处于满载状态</p>
+</li>
+<li><p>独立于CPU工作，PCI是独立于处理器总线标准，通过主桥路和处理器相连，与不同的处理器相连不影响PCI设备的使用</p>
+</li>
+<li><p>自动配置功能：每个PCI设备上都有256字节的配置空间支持：PCI设备的即插即用</p>
+</li>
+</ul>
+<p>支持突发传输：突发传输是两设备之间不间断的连续数据传送。这种传输方式可以由某个地址起读、写大量数据，地址自动加1</p>
+<p><img src="/../images/%E6%80%BB%E7%BA%BF/image-20230924030039989.png" alt="image-20230924030039989"></p>
+<h5 id="PCI插槽和PCI扩展卡："><a href="#PCI插槽和PCI扩展卡：" class="headerlink" title="PCI插槽和PCI扩展卡："></a>PCI插槽和PCI扩展卡：</h5><ul>
+<li>PCI总线规范定义了5V和3.3V两种工作电源电压</li>
+<li>连接器有32位和64位两种</li>
+<li>5V的连接器用于3.3V时，需要旋转180度</li>
+<li>PCI接口卡的金手指根据需要可设计成5V通用、5V&#x2F;32位、5V&#x2F;64位以及3.3V通用、3.3V&#x2F;32位、3.3V&#x2F;64位等多种形式</li>
+</ul>
+<h5 id="PCI总线接口信号："><a href="#PCI总线接口信号：" class="headerlink" title="PCI总线接口信号："></a>PCI总线接口信号：</h5><ul>
+<li>线号类型说明：<ul>
+<li>IN:表示输入信号</li>
+<li>OUT：表示输出信号</li>
+<li>T&#x2F;S：表示双向三态I&#x2F;O信号</li>
+<li>S&#x2F;T&#x2F;S：表示持续的低电平有效的三态信号。</li>
+<li>O&#x2F;D：表示漏极开路，以线或方式允许多个设备共享</li>
+</ul>
+</li>
+</ul>
+<h5 id="PCI地址空间"><a href="#PCI地址空间" class="headerlink" title="PCI地址空间"></a>PCI地址空间</h5><ul>
+<li><p>PCI总线三种独立的地址空间：内存地址空间、I&#x2F;O地址空间和配置地址空间</p>
+</li>
+<li><p>配置空间是PCI所特有的一个物理空间。由于PCI支持设备即插即用，所以PCI设备不占用固定的内存地址空间或I&#x2F;O地址空间，而是由操作系统决定其映射的地址。</p>
+</li>
+<li><p>系统加电时，BIOS检测PCI总线，确定所有连接在PCI总线上的设备以及它们的配置要求，并进行系统配置</p>
+</li>
+<li><p>所有的PCI设备必须实现配置空间，从而能够实现参数的自动配置，实现真正的即插即用。</p>
+</li>
+<li><p>内存地址空间和IO地址空间是80x86体系原有的。配置地址空间是PCI特有的，用于PCI的·硬件资源配置。即插即用，板卡设置配置空间寄存器，系统启动时，BIOS读出参数，系统动态分配地址。</p>
+</li>
+</ul>
+<h5 id="地址译码方式"><a href="#地址译码方式" class="headerlink" title="地址译码方式"></a>地址译码方式</h5><ul>
+<li>PCI总线的每个设备都有自己的地址译码逻辑</li>
+<li>支持正向、负向两种地址译码方式</li>
+<li>正向译码：每个设备都监视地址总线上的访问地址是否落在它的地址范围内</li>
+<li>负向译码：未被其它设备在正向译码中接受的所有译码要等总线上其它所有设备都拒绝之后才能确定，总线上只能有一个设备采用此种方式。如标准扩展总线。</li>
+</ul>
+<h5 id="PCI配置空间"><a href="#PCI配置空间" class="headerlink" title="PCI配置空间"></a>PCI配置空间</h5><p>一个物理PCI设备可能包含多个功能块（简称功能）</p>
+<p>一个设备的所有功能（总线标准规定最多8个功能）共用一个IDSEL信号；</p>
+<p>每个功能均有一个配置空间</p>
+<p>配置空间大小256B（64个双字），其中头区域大小为64B</p>
+<p><img src="/../images/%E6%80%BB%E7%BA%BF/image-20230924211942702.png" alt="image-20230924211942702"></p>
+<h5 id="配置空间的访问（获得配置信息）"><a href="#配置空间的访问（获得配置信息）" class="headerlink" title="配置空间的访问（获得配置信息）"></a>配置空间的访问（获得配置信息）</h5><ul>
+<li>在系统上电时，BIOS及操作系统配置软件扫描系统的各条总线，以确定总线上存在什么设备以及它们需要什么配置</li>
+<li>配置软件读取设备的配置寄存器·（配置读操作总线周期）</li>
+<li>确定设备所需地址空间</li>
+<li>分配中断以及主设备对总线的访问要求等</li>
+</ul>
+<h5 id="PCI-Express概述"><a href="#PCI-Express概述" class="headerlink" title="PCI-Express概述"></a>PCI-Express概述</h5><p>简称PCI-E，或PCIe。是PCI总线的发展。与PCI的主要不同是物理连接不同；通信模型及程序方法采用分层协议。</p>
+<hr>
+<h4 id="USB总线"><a href="#USB总线" class="headerlink" title="USB总线"></a>USB总线</h4><p>传统的接口电路，每增加一种设备，就需要为它准备一种接口或插座，还要为它们准备各自的驱动程序。这些接口插座各不相同，给使用和维护带来了困难。USB是英文Universal Serial Bus缩写，即通用串行总线。其采用通用的连接器，使用热插拔技术，使得外部设备的连接使用大大简化，收到了普遍的欢迎，已经成为了流行的外围I&#x2F;O总线。</p>
+<h5 id="USB特点"><a href="#USB特点" class="headerlink" title="USB特点"></a>USB特点</h5><ul>
+<li>速度快：USB 1.1传输速率12Mbps，USB 2.0传输速率480Mbps</li>
+<li>连接简单快捷：直接连接，无需关机、重新启动、打开机箱等操作</li>
+<li>无需外接电源：USB提供内置电源，能向低压设备提供5V的电源</li>
+<li>支持多连接：USB支持多设备连接，</li>
+<li>良好的兼容性：USB接口标准有良好的向下兼容性</li>
+<li>低功耗</li>
+</ul>
+<h5 id="USB系统的硬件"><a href="#USB系统的硬件" class="headerlink" title="USB系统的硬件"></a>USB系统的硬件</h5><p>（1）USB主控制器&#x2F;根集线器(Host Ctrl&#x2F;Root Hub) </p>
+<ul>
+<li>由主控制器和根集线器组成-</li>
+<li>主控制器：连接到PCI总线。可作为主设备通过PCI总线直接与MEM交换数据；</li>
+<li>功能：实现并-串转换、创建USB事务、管理USB事务传输过程(在根集线器与主机MEM间传递结果)。占用一定数量I&#x2F;O地址空间，受CPU控制。</li>
+</ul>
+<p>（2）USB集线器(USB Hub) </p>
+<ul>
+<li>由控制器和中继器组成，最多支持4个USB端口；</li>
+<li>有高速(支持USB2.0)和全速(USB1.x)2种类型；</li>
+<li>可集成在USB设备内部，不作为独立硬件出现。</li>
+<li>每个USB HUB占用一个USB逻辑地址；</li>
+<li>每个USB HUB具有一定数量(≤16)的USB端点。</li>
+</ul>
+<p>（3）USB设备 </p>
+<ul>
+<li>可分为HUB设备(USB集线器)和功能设备两种。</li>
+<li>功能设备类型：有高速、全速或低速三种类型。</li>
+<li>每个USB设备占用一个USB逻辑地址；</li>
+<li>每个USB设备具有一定数量(≤16)的USB端点。</li>
+</ul>
+<h5 id="基本概念说明"><a href="#基本概念说明" class="headerlink" title="基本概念说明"></a>基本概念说明</h5><ul>
+<li>USB总线：由VCC、GND、D+、D-四根线组成，D+和D-通过差分方式作为一根数据线(半双工)使用</li>
+<li>USB事务：USB总线上最基本的一次数据交换操作</li>
+<li>USB逻辑地址：逻辑地址不通过连线实现；</li>
+<li>每个USB集线器和USB设备(不连接到PCI总线)，均不占用I&#x2F;O地址空间(无I&#x2F;O地址)，只具有一个惟一的USB逻辑地址(USB系统自动配置所分配)；</li>
+<li>USB端口：连接USB总线的连接器；</li>
+<li>USB端点：集线器或设备的内部寄存器(仿照I&#x2F;O端口起名，又要与USB端口区分)，编号在0~15之间。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%8E%A5%E5%8F%A3%E6%8A%80%E6%9C%AF/" rel="tag"><i class="fa fa-tag"></i> 接口技术</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/10/08/%E6%8E%A5%E5%8F%A3/" rel="prev" title="接口">
+      <i class="fa fa-chevron-left"></i> 接口
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BA%BF"><span class="nav-number">1.</span> <span class="nav-text">总线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BA%BF%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">总线的基本概念：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BA%BF%E6%A0%87%E5%87%86"><span class="nav-number">1.2.</span> <span class="nav-text">总线标准</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E6%A0%87%E5%87%86"><span class="nav-number">1.3.</span> <span class="nav-text">接口标准</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BA%BF%E5%92%8C%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.4.</span> <span class="nav-text">总线和接口的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BA%BF%E7%89%B9%E6%80%A7"><span class="nav-number">1.5.</span> <span class="nav-text">总线特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BA%BF%E7%9A%84%E4%B8%BB%E8%A6%81%E6%80%A7%E8%83%BD%E5%8F%82%E6%95%B0"><span class="nav-number">1.6.</span> <span class="nav-text">总线的主要性能参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BA%BF%E5%88%86%E7%B1%BB"><span class="nav-number">1.7.</span> <span class="nav-text">总线分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BA%BF%E6%A0%87%E5%87%86-1"><span class="nav-number">1.8.</span> <span class="nav-text">总线标准</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BA%BF%E7%9A%84%E8%B4%9F%E8%BD%BD%E8%83%BD%E5%8A%9B"><span class="nav-number">1.9.</span> <span class="nav-text">总线的负载能力</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XT%E3%80%81ISA%E6%80%BB%E7%BA%BF"><span class="nav-number">1.10.</span> <span class="nav-text">XT、ISA总线</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#XT%E6%80%BB%E7%BA%BF"><span class="nav-number">1.10.1.</span> <span class="nav-text">XT总线</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E4%B8%80%E6%9D%A1I-x2F-O%E6%8C%87%E4%BB%A4%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="nav-number">1.10.2.</span> <span class="nav-text">执行一条I&#x2F;O指令的过程：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EXT%E6%80%BB%E7%BA%BF%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84%E4%B8%BB%E8%A6%81%E6%80%BB%E7%BA%BF%E4%BF%A1%E5%8F%B7%EF%BC%9A"><span class="nav-number">1.10.3.</span> <span class="nav-text">基于XT总线接口设计所需要的主要总线信号：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ISA%E6%80%BB%E7%BA%BF"><span class="nav-number">1.11.</span> <span class="nav-text">ISA总线</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ISA%E4%BF%A1%E5%8F%B7%E8%AF%B4%E6%98%8E"><span class="nav-number">1.11.1.</span> <span class="nav-text">ISA信号说明</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCI%E6%80%BB%E7%BA%BF"><span class="nav-number">1.12.</span> <span class="nav-text">PCI总线</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#PCI%E7%89%B9%E7%82%B9"><span class="nav-number">1.12.1.</span> <span class="nav-text">PCI特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PCI%E6%8F%92%E6%A7%BD%E5%92%8CPCI%E6%89%A9%E5%B1%95%E5%8D%A1%EF%BC%9A"><span class="nav-number">1.12.2.</span> <span class="nav-text">PCI插槽和PCI扩展卡：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PCI%E6%80%BB%E7%BA%BF%E6%8E%A5%E5%8F%A3%E4%BF%A1%E5%8F%B7%EF%BC%9A"><span class="nav-number">1.12.3.</span> <span class="nav-text">PCI总线接口信号：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PCI%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="nav-number">1.12.4.</span> <span class="nav-text">PCI地址空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%B0%E5%9D%80%E8%AF%91%E7%A0%81%E6%96%B9%E5%BC%8F"><span class="nav-number">1.12.5.</span> <span class="nav-text">地址译码方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PCI%E9%85%8D%E7%BD%AE%E7%A9%BA%E9%97%B4"><span class="nav-number">1.12.6.</span> <span class="nav-text">PCI配置空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%A9%BA%E9%97%B4%E7%9A%84%E8%AE%BF%E9%97%AE%EF%BC%88%E8%8E%B7%E5%BE%97%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%EF%BC%89"><span class="nav-number">1.12.7.</span> <span class="nav-text">配置空间的访问（获得配置信息）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PCI-Express%E6%A6%82%E8%BF%B0"><span class="nav-number">1.12.8.</span> <span class="nav-text">PCI-Express概述</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#USB%E6%80%BB%E7%BA%BF"><span class="nav-number">1.13.</span> <span class="nav-text">USB总线</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#USB%E7%89%B9%E7%82%B9"><span class="nav-number">1.13.1.</span> <span class="nav-text">USB特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#USB%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%A1%AC%E4%BB%B6"><span class="nav-number">1.13.2.</span> <span class="nav-text">USB系统的硬件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E8%AF%B4%E6%98%8E"><span class="nav-number">1.13.3.</span> <span class="nav-text">基本概念说明</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chauncy-qiu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Chauncy-qiu</p>
+  <div class="site-description" itemprop="description">There is no black magic in computers.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:qcanic@foxmail.com" title="E-Mail → mailto:qcanic@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chauncy-qiu</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+-->
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
