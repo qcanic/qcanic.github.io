@@ -206,6 +206,39 @@
       text-decoration: none;
     }
 
+    .profile-socials {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 0 0 18px;
+    }
+
+    .social-icon {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--muted);
+      box-shadow: 0 1px 0 rgba(31, 35, 40, 0.03);
+      transition: border-color 160ms ease, color 160ms ease, transform 160ms ease, background 160ms ease;
+    }
+
+    .social-icon:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--link-hover);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .social-icon i {
+      font-size: 17px;
+      line-height: 1;
+    }
+
     .profile-list {
       margin: 0;
       padding: 0;
@@ -215,17 +248,49 @@
     }
 
     .profile-list li {
-      min-height: 28px;
+      min-height: 38px;
       display: flex;
-      align-items: flex-start;
-      gap: 10px;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 0;
     }
 
-    .profile-list i {
-      width: 18px;
-      margin-top: 6px;
-      color: var(--subtle);
+    .profile-icon {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--accent-soft);
+      color: var(--accent);
       text-align: center;
+    }
+
+    .profile-icon i {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .profile-detail {
+      min-width: 0;
+      display: grid;
+      gap: 1px;
+      line-height: 1.3;
+    }
+
+    .profile-label {
+      color: var(--subtle);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .profile-value {
+      overflow-wrap: anywhere;
+      color: var(--muted);
     }
 
     .content {
@@ -422,6 +487,7 @@
       }
 
       .follow,
+      .profile-socials,
       .profile-list {
         grid-column: 1 / -1;
       }
@@ -481,13 +547,41 @@
         <a class="follow" href="https://github.com/qcanic" target="_blank" rel="noopener">
           <i class="fa-brands fa-github"></i> Follow
         </a>
+        <div class="profile-socials" aria-label="Profile links">
+          <a class="social-icon" href="mailto:qiucan@iie.ac.cn" aria-label="Email" title="Email">
+            <i class="fa-solid fa-envelope"></i>
+          </a>
+          <a class="social-icon" href="https://github.com/qcanic" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a class="social-icon" href="/archives/" aria-label="Blog archives" title="Blog archives">
+            <i class="fa-solid fa-book-open"></i>
+          </a>
+          <a class="social-icon" href="/resources/" aria-label="Resources" title="Resources">
+            <i class="fa-solid fa-folder-open"></i>
+          </a>
+        </div>
         <ul class="profile-list">
-          <li><i class="fa-solid fa-location-dot"></i><span>Beijing, China</span></li>
-          <li><i class="fa-solid fa-building-columns"></i><span>University of Chinese Academy of Sciences</span></li>
-          <li><i class="fa-solid fa-shield-halved"></i><span>Processor Security / LLM Inference</span></li>
-          <li><i class="fa-solid fa-envelope"></i><a href="mailto:qiucan@iie.ac.cn">qiucan@iie.ac.cn</a></li>
-          <li><i class="fa-brands fa-github"></i><a href="https://github.com/qcanic" target="_blank" rel="noopener">github.com/qcanic</a></li>
-          <li><i class="fa-solid fa-box-archive"></i><a href="/archives/">Blog Archives</a></li>
+          <li>
+            <span class="profile-icon"><i class="fa-solid fa-location-dot"></i></span>
+            <span class="profile-detail"><span class="profile-label">Location</span><span class="profile-value">Beijing, China</span></span>
+          </li>
+          <li>
+            <span class="profile-icon"><i class="fa-solid fa-building-columns"></i></span>
+            <span class="profile-detail"><span class="profile-label">Affiliation</span><span class="profile-value">University of Chinese Academy of Sciences</span></span>
+          </li>
+          <li>
+            <span class="profile-icon"><i class="fa-solid fa-shield-halved"></i></span>
+            <span class="profile-detail"><span class="profile-label">Interests</span><span class="profile-value">Processor Security / LLM Inference</span></span>
+          </li>
+          <li>
+            <span class="profile-icon"><i class="fa-solid fa-envelope"></i></span>
+            <span class="profile-detail"><span class="profile-label">Email</span><a class="profile-value" href="mailto:qiucan@iie.ac.cn">qiucan@iie.ac.cn</a></span>
+          </li>
+          <li>
+            <span class="profile-icon"><i class="fa-brands fa-github"></i></span>
+            <span class="profile-detail"><span class="profile-label">GitHub</span><a class="profile-value" href="https://github.com/qcanic" target="_blank" rel="noopener">github.com/qcanic</a></span>
+          </li>
         </ul>
       </section>
     </aside>
@@ -515,7 +609,7 @@
         <ul class="timeline">
           <li>
             <strong>LLM Agent Group, Easthome</strong>
-            <span class="meta">Feb 2025 - Mar 2025 · Beijing, China</span>
+            <span class="meta">Feb 2025 - Mar 2025 | Beijing, China</span>
             <p>Developed a reliable customer-service dialogue system using LoRA-based SFT, multi-agent collaboration, and RAG, supporting intent recognition, sentiment analysis, and closed-loop service control.</p>
           </li>
           <li>
