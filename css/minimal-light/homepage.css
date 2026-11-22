@@ -1,0 +1,187 @@
+/* Adapts Minimal Light at 3786d5d. See base.css and LICENSE.txt for the upstream theme. */
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --paper: #fff;
+  --text: #49464d;
+  --heading: #2c2130;
+  --accent: #b509ac;
+  --accent-hover: #891084;
+  --line: #e5e0e6;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #20212b;
+  --text: #dadbdf;
+  --heading: #f1e9f0;
+  --accent: #e678dd;
+  --accent-hover: #f5a8ee;
+  --line: #414252;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --paper: #20212b;
+    --text: #dadbdf;
+    --heading: #f1e9f0;
+    --accent: #e678dd;
+    --accent-hover: #f5a8ee;
+    --line: #414252;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font: 1.0625rem / 1.5 "Crimson Pro", Georgia, "Songti SC", serif;
+}
+
+h1, h2, h3, strong { color: var(--heading); }
+h1, h2, h3 { font-weight: 600; }
+
+a { color: var(--accent); }
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+  text-underline-offset: .15em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  z-index: 1;
+  top: 1rem;
+  left: 1rem;
+  transform: translateY(calc(-100% - 1rem));
+  padding: .45rem .75rem;
+  background: var(--paper);
+}
+
+.skip-link:focus { transform: none; }
+
+main { display: flow-root; }
+
+.profile h1 { margin-bottom: .6rem; }
+.profile p { margin: 0; }
+.profile-role { font-size: 1.125rem; }
+
+.profile .avatar { margin: 1rem 0 1.25rem; }
+
+.profile .avatar img {
+  display: block;
+  width: 5.5rem;
+  height: auto;
+  padding: 0;
+}
+
+.profile-email {
+  font: .875rem / 1.7 ui-monospace, monospace;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: .25rem;
+  margin-top: .85rem;
+}
+
+.social-icons a,
+.theme-toggle {
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--accent);
+  font: 1.125rem / 1 system-ui, sans-serif;
+}
+
+.social-icons a { color: var(--accent) !important; }
+
+.social-icons a:hover {
+  transform: none;
+  background: transparent;
+  color: var(--accent-hover) !important;
+  text-decoration: none;
+}
+
+.theme-toggle { cursor: pointer; }
+.theme-toggle:hover { color: var(--accent-hover); }
+
+.theme-toggle[hidden],
+.theme-toggle[aria-pressed="false"] .theme-sun,
+.theme-toggle[aria-pressed="true"] .theme-moon {
+  display: none;
+}
+
+.reading-column { border-color: var(--line); }
+.reading-column h2 { scroll-margin-top: 1.25rem; }
+.reading-column h2:not(:first-child) { margin-top: 1.65rem; }
+
+.reading-list { padding-inline-start: 1.3rem; }
+.reading-list li + li { margin-top: .2rem; }
+
+.reading-column a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: .15em;
+}
+
+.reading-column a:hover { text-decoration-color: currentColor; }
+
+.entries {
+  list-style: none;
+  padding: 0;
+}
+
+.entries li + li { margin-top: 1rem; }
+
+.entries h3 {
+  margin: 0 0 .15rem;
+  font-size: 1.125rem;
+  line-height: 1.35;
+}
+
+.entries p { margin: 0; }
+.entries .entry-meta { margin-bottom: .3rem; }
+
+.writing-list li + li { margin-top: .5rem; }
+.writing-description { display: block; }
+.resource-links a + a { margin-inline-start: 1rem; }
+
+.site-note {
+  border-top: 1px solid var(--line);
+  margin-top: 1.75rem;
+  padding-top: .9rem;
+  font-size: .875rem;
+}
+
+.site-note p { margin-bottom: .2rem; }
+
+@media screen and (min-width: 961px) and (max-height: 31rem) {
+  .profile { position: static; }
+}
+
+@media screen and (max-width: 960px) {
+  .profile { padding-bottom: 1.1rem; }
+  .reading-column { max-width: 40.625rem; margin-inline: auto; }
+}
