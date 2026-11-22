@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="Qiu Can (邱灿) is an M.S. student at the School of Cyber Security, UCAS, interested in processor security and LLM inference.">
+  <meta name="description" content="Qiu Can (邱灿) is an M.S. student at UCAS working on RISC-V processor security, with research interests in AI and hardware design space exploration.">
   <meta name="author" content="Qiu Can, 邱灿, Can Qiu, QiuCan">
-  <meta name="keywords" content="Qiu Can, 邱灿, Can Qiu, QiuCan, qcanic, processor security, LLM inference">
+  <meta name="keywords" content="Qiu Can, 邱灿, Can Qiu, QiuCan, qcanic, processor security, RISC-V, computer architecture, electronic design automation, hardware design space exploration, LLM inference">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Qiu Can (邱灿) - Homepage">
   <meta property="og:site_name" content="Qiu Can (邱灿) - Homepage">
-  <meta property="og:description" content="Personal homepage of Qiu Can (邱灿), M.S. student at the School of Cyber Security, UCAS.">
+  <meta property="og:description" content="Qiu Can (邱灿) is an M.S. student at UCAS working on RISC-V processor security, with research interests in AI and hardware design space exploration.">
   <meta property="og:image" content="https://qcanic.github.io/images/avatar.png">
   <link rel="canonical" href="https://qcanic.github.io/">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
@@ -37,7 +37,7 @@
         "@type": "CollegeOrUniversity",
         "name": "China Agricultural University"
       },
-      "knowsAbout": ["Processor Security", "LLM Inference", "Computer Architecture", "AIGC"],
+      "knowsAbout": ["Processor Security", "RISC-V", "Computer Architecture", "Electronic Design Automation", "Hardware Design Space Exploration", "LLM Inference", "AIGC"],
       "sameAs": [
         "https://github.com/qcanic"
       ]
@@ -84,27 +84,32 @@
     <main id="main-content" tabindex="-1">
       <section class="reading-column">
         <h2 id="about">About Me</h2>
-        <p>I’m <strong>Qiu Can (邱灿)</strong>, also known as Chauncy. I’m an M.S. student at the School of Cyber Security, University of Chinese Academy of Sciences. I received my B.Eng. from the College of Information and Electrical Engineering, China Agricultural University.</p>
-        <p>I enjoy working close to the machine, reading system internals, and writing about how computers work.</p>
+        <p>I’m <strong>Qiu Can</strong>, an M.S. student at the School of Cyber Security, University of Chinese Academy of Sciences (UCAS). I earned my B.Eng. from the College of Information and Electrical Engineering at China Agricultural University.</p>
+        <p>My work combines processor microarchitecture, performance modeling, and security verification.</p>
 
         <h2 id="research">Research Interests</h2>
         <ul class="reading-list">
-          <li><strong>Processor security</strong> · Hardware security and computer architecture.</li>
-          <li><strong>LLM inference</strong> · Efficient AI systems and large language model inference.</li>
+          <li><strong>Electronic design automation (EDA)</strong> · Using AI to guide hardware design space exploration and exploring hardware architectures to improve the efficiency of AI workloads such as large language model inference.</li>
+          <li><strong>Processor security</strong> · Secure processor microarchitecture, with a focus on branch prediction and speculative execution.</li>
         </ul>
-        <p>I’m also interested in systems and open source.</p>
 
         <h2 id="experience">Experience</h2>
         <ul class="entries">
           <li>
+            <h3>Beijing Institute of Open Source Chip · RISC-V Security Intern</h3>
+            <p class="entry-meta">XiangShan Kunminghu Project · CVM Group · <time datetime="2026-07">Jul 2026</time> – Present</p>
+            <p>Design and verify branch prediction defenses for XiangShan’s Kunminghu RISC-V core. Develop XS-GEM5 models to measure performance trade-offs, run integration tests, and evaluate mitigations for Spectre-class side channels.</p>
+            <p>Implemented a branch predictor context-flush model for Kunminghu V3 that was merged into XS-GEM5. <a href="https://github.com/OpenXiangShan/GEM5/pull/1248">XS-GEM5 PR #1248</a></p>
+          </li>
+          <li>
             <h3>Baidu · AIGC Algorithm Intern</h3>
             <p class="entry-meta">MEG · Search AI · <time datetime="2025-04">Apr 2025</time> – <time datetime="2025-08">Aug 2025</time></p>
-            <p>Worked on image super-resolution model development and optimization, reproducing models such as Real-ESRGAN and training on large-scale custom datasets to improve visual quality and support online product delivery.</p>
+            <p>Developed and optimized image super-resolution models for Baidu Search. Reproduced Real-ESRGAN and trained models on large-scale custom datasets to improve visual quality and support product deployment.</p>
           </li>
           <li>
             <h3>Easthome · LLM Agent Group</h3>
             <p class="entry-meta">Beijing, China · <time datetime="2025-02">Feb 2025</time> – <time datetime="2025-03">Mar 2025</time></p>
-            <p>Developed a customer-service dialogue system using LoRA-based SFT, multi-agent collaboration, and RAG, supporting intent recognition, sentiment analysis, and closed-loop service control.</p>
+            <p>Built a customer service dialogue system using LoRA-based supervised fine-tuning, multi-agent coordination, and retrieval-augmented generation. The system supported intent recognition, sentiment analysis, and closed-loop service workflows.</p>
           </li>
         </ul>
 
