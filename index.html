@@ -65,7 +65,7 @@
     }
   </script>
   <link rel="stylesheet" href="/css/minimal-light/base.css">
-  <link rel="stylesheet" href="/css/minimal-light/homepage.css?v=20261124">
+  <link rel="stylesheet" href="/css/minimal-light/homepage.css?v=20261124b">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -74,10 +74,12 @@
       <div class="image avatar">
         <img src="/images/avatar.png" alt="Qiu Can’s profile image" width="700" height="700" fetchpriority="high">
       </div>
-      <h1 id="page-title">Qiu Can <span lang="zh-Hans">邱灿</span></h1>
-      <p class="profile-role">M.S. Student · UCAS</p>
-      <p>Institute of Information Engineering, CAS</p>
-      <p class="profile-email"><a href="mailto:qiucan@iie.ac.cn">qiucan@iie.ac.cn</a></p>
+      <div class="profile-identity">
+        <h1 id="page-title">Qiu Can <span class="name-native" lang="zh-Hans">邱灿</span></h1>
+        <p class="profile-role">M.S. Student · UCAS</p>
+        <p>Institute of Information Engineering</p>
+        <p class="profile-email"><a href="mailto:qiucan@iie.ac.cn">qiucan@iie.ac.cn</a></p>
+      </div>
       <div class="social-icons" role="group" aria-label="Profile links and theme">
         <a href="https://github.com/qcanic" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
           <i class="fab fa-github" aria-hidden="true"></i>
@@ -105,31 +107,30 @@
     <main id="main-content" tabindex="-1">
       <section class="reading-column">
         <h2 id="about">About Me</h2>
-        <p>I’m <strong>Qiu Can</strong>, an M.S. student in computer architecture at the University of Chinese Academy of Sciences (UCAS). I conduct research at the State Key Laboratory of Cyberspace Security Defense, Institute of Information Engineering, Chinese Academy of Sciences.</p>
-        <p>I earned my B.Eng. in computer science and technology from China Agricultural University. My work combines processor microarchitecture, performance modeling, and security verification.</p>
+        <p>I’m an M.S. student in computer architecture at the University of Chinese Academy of Sciences (UCAS). I conduct research at the State Key Laboratory of Cyberspace Security Defense, Institute of Information Engineering, Chinese Academy of Sciences.</p>
 
         <h2 id="research">Research Interests</h2>
-        <ul class="reading-list">
-          <li><strong>Electronic design automation (EDA)</strong> · Using AI to guide hardware design space exploration and exploring hardware architectures to improve the efficiency of AI workloads such as large language model inference.</li>
-          <li><strong>Processor security</strong> · Secure processor microarchitecture, with a focus on branch prediction and speculative execution.</li>
+        <ul class="reading-list research-list">
+          <li><strong>Electronic design automation (EDA)</strong> · AI-guided hardware design space exploration and architecture optimization for AI workloads such as large language model inference.</li>
+          <li><strong>Processor security</strong> · Secure microarchitecture, with a focus on branch prediction and speculative execution.</li>
         </ul>
 
         <h2 id="experience">Experience</h2>
         <ul class="entries">
           <li>
             <h3>Beijing Institute of Open Source Chip · RISC-V Security Intern</h3>
-            <p class="entry-meta">XiangShan Kunminghu Project · CVM Group · <time datetime="2026-07">Jul 2026</time> – Present</p>
-            <p>Design and verify branch prediction defenses for XiangShan’s Kunminghu RISC-V core. Develop XS-GEM5 models to measure performance trade-offs, run integration tests, and evaluate mitigations for Spectre-class side channels.</p>
+            <p class="entry-meta">XiangShan Kunminghu Project · CVM Group · <span class="entry-period"><time datetime="2026-07">Jul 2026</time> – Present</span></p>
+            <p>Design and verify branch prediction defenses for the Kunminghu core. Model performance trade-offs in XS-GEM5, run integration tests, and evaluate mitigations for Spectre-class side channels.</p>
           </li>
           <li>
             <h3>Baidu · AIGC Algorithm Intern</h3>
-            <p class="entry-meta">MEG · Search AI · <time datetime="2025-04">Apr 2025</time> – <time datetime="2025-08">Aug 2025</time></p>
-            <p>Developed and optimized image super-resolution models for Baidu Search. Reproduced Real-ESRGAN and trained models on large-scale custom datasets to improve visual quality and support product deployment.</p>
+            <p class="entry-meta">MEG · Search AI · <span class="entry-period"><time datetime="2025-04">Apr 2025</time> – <time datetime="2025-08">Aug 2025</time></span></p>
+            <p>Developed and optimized image super-resolution models for Baidu Search, reproducing Real-ESRGAN and training on large-scale custom datasets to support deployment.</p>
           </li>
           <li>
             <h3>Easthome · LLM Agent Group</h3>
-            <p class="entry-meta">Beijing, China · <time datetime="2025-02">Feb 2025</time> – <time datetime="2025-03">Mar 2025</time></p>
-            <p>Built a customer service dialogue system using LoRA-based supervised fine-tuning, multi-agent coordination, and retrieval-augmented generation. The system supported intent recognition, sentiment analysis, and closed-loop service workflows.</p>
+            <p class="entry-meta">Beijing, China · <span class="entry-period"><time datetime="2025-02">Feb 2025</time> – <time datetime="2025-03">Mar 2025</time></span></p>
+            <p>Built a customer service dialogue system with LoRA-based supervised fine-tuning, multi-agent coordination, and retrieval-augmented generation. It supported intent recognition, sentiment analysis, and closed-loop workflows.</p>
           </li>
         </ul>
 
@@ -137,19 +138,19 @@
         <ul class="reading-list writing-list">
           <li>
             <a href="/2023/11/27/%E4%BF%A1%E5%8F%B7%E9%87%8F%E6%9C%BA%E5%88%B6/">Semaphore Mechanism</a>
-            <span class="writing-description">Notes on process synchronization and mutual exclusion.</span>
+            <span class="writing-description">Process synchronization and mutual exclusion.</span>
           </li>
           <li>
             <a href="/2023/04/22/MIPS%E6%B1%87%E7%BC%96%E7%A8%8B%E5%BA%8F/">MIPS Assembly Program</a>
-            <span class="writing-description">Low-level programming notes from machine language to assembly.</span>
+            <span class="writing-description">From machine code to assembly.</span>
           </li>
           <li>
             <a href="/2023/09/19/Rust%E6%89%80%E6%9C%89%E6%9D%83/">Rust Ownership</a>
-            <span class="writing-description">A compact look at ownership, borrowing, and memory safety.</span>
+            <span class="writing-description">Ownership, borrowing, and memory safety.</span>
           </li>
           <li>
             <a href="/2023/10/15/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">Linear Regression</a>
-            <span class="writing-description">An introductory note on a classic regression model.</span>
+            <span class="writing-description">Model fitting and loss functions.</span>
           </li>
         </ul>
         <p><a href="/archives/">All posts</a></p>
@@ -169,8 +170,8 @@
         <h2 id="service">Leadership &amp; Service</h2>
         <ul class="entries">
           <li>
-            <h3>Former President of the Student Union</h3>
-            <p>School of Cyber Security, University of Chinese Academy of Sciences</p>
+            <h3>President of the Student Union</h3>
+            <p class="entry-meta">School of Cyber Security, University of Chinese Academy of Sciences · <span class="entry-period"><time datetime="2025-09">Sep 2025</time> – <time datetime="2026-07">Jul 2026</time></span></p>
           </li>
         </ul>
 
@@ -183,8 +184,7 @@
         </ul>
 
         <h2 id="contact">Contact</h2>
-        <p>Based in Beijing, China. Reach me at <a href="mailto:qiucan@iie.ac.cn">qiucan@iie.ac.cn</a> or on <a href="https://github.com/qcanic" target="_blank" rel="noopener">GitHub</a>.</p>
-        <p class="resource-links"><a href="/resources/">Resources</a> <a href="/tags/">Blog tags</a></p>
+        <p>Beijing, China · <a href="mailto:qiucan@iie.ac.cn">qiucan@iie.ac.cn</a> · <a href="https://github.com/qcanic" target="_blank" rel="noopener">GitHub</a> · <a href="/tags/">Blog tags</a></p>
         <div class="site-note">
           <p>There is no black magic in computers.</p>
           <p>&copy; 2023–2026 Qiu Can · <a href="https://github.com/yaoyao-liu/minimal-light">Minimal Light</a></p>
