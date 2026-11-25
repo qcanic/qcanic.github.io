@@ -133,6 +133,28 @@ main { display: flow-root; }
   display: none;
 }
 
+.section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .15rem .45rem;
+  max-width: 15rem;
+  margin: .8rem auto 0;
+  border-top: 1px solid var(--line);
+  padding-top: .55rem;
+}
+
+.section-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.875rem;
+  color: var(--text);
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+.section-nav a:hover { color: var(--accent); }
+
 .reading-column { border-color: var(--line); }
 .reading-column h2 { scroll-margin-top: 1.25rem; }
 .reading-column h2:not(:first-child) { margin-top: 1.65rem; }

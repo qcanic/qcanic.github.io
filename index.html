@@ -20,26 +20,38 @@
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "@id": "https://qcanic.github.io/#person",
-      "name": "Qiu Can",
-      "alternateName": ["邱灿", "Can Qiu", "QiuCan", "qcanic"],
+      "@type": "ProfilePage",
       "url": "https://qcanic.github.io/",
-      "image": "https://qcanic.github.io/images/avatar.png",
-      "email": "mailto:qiucan@iie.ac.cn",
-      "jobTitle": "M.S. Student",
-      "affiliation": {
-        "@type": "CollegeOrUniversity",
-        "name": "University of Chinese Academy of Sciences"
-      },
-      "alumniOf": {
-        "@type": "CollegeOrUniversity",
-        "name": "China Agricultural University"
-      },
-      "knowsAbout": ["Processor Security", "RISC-V", "Computer Architecture", "Electronic Design Automation", "Hardware Design Space Exploration", "LLM Inference", "AIGC"],
-      "sameAs": [
-        "https://github.com/qcanic"
-      ]
+      "mainEntity": {
+        "@type": "Person",
+        "@id": "https://qcanic.github.io/#person",
+        "name": "Qiu Can",
+        "alternateName": ["邱灿", "Can Qiu", "QiuCan", "qcanic"],
+        "url": "https://qcanic.github.io/",
+        "image": "https://qcanic.github.io/images/avatar.png",
+        "email": "mailto:qiucan@iie.ac.cn",
+        "jobTitle": "M.S. Student",
+        "affiliation": [
+          {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Chinese Academy of Sciences"
+          },
+          {
+            "@type": "Organization",
+            "name": "State Key Laboratory of Cyberspace Security Defense",
+            "parentOrganization": {
+              "@type": "Organization",
+              "name": "Institute of Information Engineering, Chinese Academy of Sciences"
+            }
+          }
+        ],
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "China Agricultural University"
+        },
+        "knowsAbout": ["Processor Security", "RISC-V", "Computer Architecture", "Electronic Design Automation", "Hardware Design Space Exploration", "LLM Inference", "AIGC"],
+        "sameAs": ["https://github.com/qcanic"]
+      }
     }
   </script>
   <script>
@@ -53,7 +65,7 @@
     }
   </script>
   <link rel="stylesheet" href="/css/minimal-light/base.css">
-  <link rel="stylesheet" href="/css/minimal-light/homepage.css">
+  <link rel="stylesheet" href="/css/minimal-light/homepage.css?v=20261124">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -63,8 +75,8 @@
         <img src="/images/avatar.png" alt="Qiu Can’s profile image" width="700" height="700" fetchpriority="high">
       </div>
       <h1 id="page-title">Qiu Can <span lang="zh-Hans">邱灿</span></h1>
-      <p class="profile-role">M.S. Student</p>
-      <p>School of Cyber Security, UCAS</p>
+      <p class="profile-role">M.S. Student · UCAS</p>
+      <p>Institute of Information Engineering, CAS</p>
       <p class="profile-email"><a href="mailto:qiucan@iie.ac.cn">qiucan@iie.ac.cn</a></p>
       <div class="social-icons" role="group" aria-label="Profile links and theme">
         <a href="https://github.com/qcanic" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
@@ -78,13 +90,22 @@
           <i class="fas fa-sun theme-sun" aria-hidden="true"></i>
         </button>
       </div>
+      <nav class="section-nav" aria-label="On this page">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#experience">Experience</a>
+        <a href="#posts">Writing</a>
+        <a href="#education">Education</a>
+        <a href="#awards">Awards</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </header>
 
     <main id="main-content" tabindex="-1">
       <section class="reading-column">
         <h2 id="about">About Me</h2>
-        <p>I’m <strong>Qiu Can</strong>, an M.S. student at the School of Cyber Security, University of Chinese Academy of Sciences (UCAS). I earned my B.Eng. from the College of Information and Electrical Engineering at China Agricultural University.</p>
-        <p>My work combines processor microarchitecture, performance modeling, and security verification.</p>
+        <p>I’m <strong>Qiu Can</strong>, an M.S. student in computer architecture at the University of Chinese Academy of Sciences (UCAS). I conduct research at the State Key Laboratory of Cyberspace Security Defense, Institute of Information Engineering, Chinese Academy of Sciences.</p>
+        <p>I earned my B.Eng. in computer science and technology from China Agricultural University. My work combines processor microarchitecture, performance modeling, and security verification.</p>
 
         <h2 id="research">Research Interests</h2>
         <ul class="reading-list">
